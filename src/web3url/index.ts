@@ -9,8 +9,8 @@ export type Chain = {
     }
 }
 
-function getDefaultChainlist() : Chain[] {
-    let chainlist: Chain[]= [];
+export function getDefaultChainlist(): Chain[] {
+    let chainlist: Chain[] = [];
 
     for (let ViemChain of Object.values(viemChains)) {
         let chain: Chain = {
@@ -20,16 +20,23 @@ function getDefaultChainlist() : Chain[] {
             contracts: Object(ViemChain.contracts),
         };
 
-        // Add additional RPC URLs for Ethereum mainnet and ETHStorage testnet
+        // Add additional RPC URLs for Ethereum mainnet as viem's url may have issues
         if (ViemChain.id.toString() === '1') {
             chain.rpcUrls = ['https://ethereum.publicnode.com', 'https://cloudflare-eth.com']
-        } else if (ViemChain.id.toString() === '3333') {
-            chain.rpcUrls = ['http://testnet.ethstorage.io:9540']
+            chainlist.push(chain);
+        } else if (ViemChain.id.toString() === "3333") {
+        } else {
+            chainlist.push(chain);
         }
-
-
-        chainlist.push(chain);
     }
+
+    // Ensure ETHStorage testnet is included
+    chainlist.push({
+        id: 3333,
+        name: "ethStorage-testnet",
+        rpcUrls: ["http://testnet.ethstorage.io:9540"],
+        contracts: {},
+    })
 
     return chainlist;
 }
