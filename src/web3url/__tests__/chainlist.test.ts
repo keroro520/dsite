@@ -1,4 +1,4 @@
-import { getDefaultChainlist, Chain } from '../index';
+import { getDefaultChainlist, Chain } from '../chainlist';
 
 describe('getDefaultChainlist', () => {
     it('returns a list of chains with correct properties', () => {
